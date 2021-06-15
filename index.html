@@ -1,0 +1,89 @@
+<script>
+
+
+
+
+    function playRound(playerSel,compSel) {
+        playerSel = playerSel.toLowerCase();
+        if (playerSel === compSel){
+            return `You Tie! ${playerSel} ties ${compSel}`
+        }
+        if (playerSel === "scissors"){
+            if (compSel === "paper"){
+                return `You Win! ${playerSel} beats ${compSel}`
+            }
+            return `You Lose! ${playerSel} loses to ${compSel}`
+
+        }else if (playerSel === "paper"){
+            if (compSel === "rock"){
+                return `You Win! ${playerSel} beats ${compSel}`
+            }
+            return `You Lose! ${playerSel} loses to ${compSel}`
+
+        } else if (playerSel === "rock"){
+            if (compSel === "scissors"){
+                return `You Win! ${playerSel} beats ${compSel}`
+            }
+            return `You Lose! ${playerSel} loses to ${compSel}`
+
+        }
+
+        
+
+
+    }
+
+
+    function game(){
+        let score = 0;
+        let userInput;
+        let value;
+
+        for(i=0;i<5;i++){
+            userInput = prompt("rock paper or scissors: ").toLowerCase();
+            console.log(userInput);
+            while(userInput!== "rock" && userInput!=="paper" && userInput !=="scissors"){
+                userInput = prompt("rock paper or scissors: ").toLowerCase();
+            }
+            console.log("pass")
+            value = playRound(userInput,computerPlay());
+            console.log(value);
+            score += value.indexOf("You Win") === -1 ? 0 : 1
+        }
+        if (score >= 3){
+            console.log(`You Won the game! you won ${score}/5 rounds.`)
+        }else{
+            console.log(`You lost the game! you won ${score}/5 rounds.`)
+        }
+
+    }
+
+
+
+
+
+    function computerPlay(){
+        return ["rock","paper","scissors"][Math.floor(Math.random()*3)]
+    }
+
+
+
+    const playerSel = "rock";
+    game()
+    
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
