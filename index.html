@@ -1,9 +1,16 @@
 <style>
     .player,.computer{
         position: relative;
-        display: flex;
-
+        display: inline-block;
     }
+	.player{
+	}
+	.hands{
+	display: flex;
+	content-align:center;
+	text-align:center;
+	margin: 0 auto 0 auto;
+	}
     .fight{
         position:relative;
         display:flex;
@@ -18,7 +25,7 @@
     }
 .btns{
     text-align:center;
-    margin: 2% 33.3%;
+    margin: 5% 33.3%;
 }
 
 .btns button{
@@ -127,11 +134,11 @@ h3{
     <body>
         <div class="reset hidden">
             <div class="content">
-                <h1>h</h1>
+      
                 <button id="replay">Replay</button>
             </div>
         </div>
-        <h1>Rock Paper Scissors</h1>
+        <h1 style="font-size:2.5rem">Rock Paper Scissors</h1>
         <div class="scoreboard">
             <h2 class="score">Score: 0</h2>
             <h2 class="round">Round: 1</h2>
@@ -139,8 +146,13 @@ h3{
 
         <h3></h3>
         <div class="fight container">
+		<h2 style="font-size:2rem">Computer</h2>
+		<div class="hands">
+	
         <div class="computer"><img class="move" ></div> 
         <div class="player"><img class="move" ></div>
+		</div>
+		<h2 style="font-size:2rem">Player</h2>
         </div>
         <div class="btns">
             <button  name="rock">rock</button>
