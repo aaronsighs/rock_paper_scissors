@@ -1,64 +1,223 @@
+<style>
+    .player,.computer{
+        position: relative;
+        display: flex;
+
+    }
+    .fight{
+        position:relative;
+        display:flex;
+        max-width:100%;
+        align-content: center;
+        margin: 0 10% 0 10%;
+    }
+    .move{
+        position: relative;
+        height:auto;
+        width:90%;
+    }
+.btns{
+    text-align:center;
+    margin: 2% 33.3%;
+}
+
+.btns button{
+    padding:10px;
+    box-shadow: gray 1px 1px;
+    min-width:10%;
+}
+
+h3{
+    min-height:40px;
+    text-align:center;
+    font-size:2rem;
+}
+
+
+.scoreboard{
+    position:absolute;
+    top:0;
+    right:0;
+    margin:10px;
+}
+
+
+.popup{
+    position:absolute;
+    z-index:50;
+    width:100vw;
+    height:100vh;
+    max-width:100vw !important;
+    max-height:100vh !important;
+    background-color:rgba(0,0,0,.8);
+    visibility:visible !important;
+    
+}
+
+.hidden{
+    position:hidden;
+    visibility:hidden;
+    max-width:0;
+    max-height:0;
+}
+    body{
+        background-color:hsl(160,40%,25%);
+        margin:0;
+        color:White;
+    }
+
+
+    .start1{
+        animation: mymove1 .45s infinite cubic-bezier(0,3,1,-5) ;
+    }
+    .start2{
+        animation: mymove2 .45s infinite cubic-bezier(0,3,1,-5) ;
+    }
+
+    @keyFrames mymove1{
+        0%{
+            bottom:15px;
+            transform:skewY(5deg)
+        }
+        100%{
+            bottom:0px;
+        }
+    }
+
+    @keyFrames mymove2{
+        0%{
+            bottom:15px;
+            transform:skewY(-5deg)
+        }
+        100%{
+            bottom:0px;
+        }
+    }
+
+
+    .player img{
+        transform:rotateY(180deg);
+    }
+
+    .reset .content{
+        position:relative;
+        margin:33.3%;
+        background-color:white;
+        z-index:550;
+        text-align:center;
+        padding:10px;
+        color:black;
+
+    }
+
+    ul{
+        width:100%;
+        display:inline-block;
+    }
+    li{
+        display:inline-block;
+    }
+    
+
+
+</style>
+
+
+<html>
+    <body>
+        <div class="reset hidden">
+            <div class="content">
+                <h1>h</h1>
+                <button id="replay">Replay</button>
+            </div>
+        </div>
+        <h1>Rock Paper Scissors</h1>
+        <div class="scoreboard">
+            <h2 class="score">Score: 0</h2>
+            <h2 class="round">Round: 1</h2>
+        </div>
+
+        <h3></h3>
+        <div class="fight container">
+        <div class="computer"><img class="move" ></div> 
+        <div class="player"><img class="move" ></div>
+        </div>
+        <div class="btns">
+            <button  name="rock">rock</button>
+            <button name="paper">paper</button>
+            <button name="scissors">scissors</button>
+        </div>
+
+
+    </body>
+</html>
+
+
+
+
+
 <script>
 
 
+    let score = 0;
+    let rounds = 1;
+    let losses = 0;
 
 
-    function playRound(playerSel,compSel) {
+    let photos = {"paper":"https://i.imgur.com/0oAYNzf.png"
+                ,"scissors":"https://i.imgur.com/BHm0VZf.png"
+                ,"rock":"https://i.imgur.com/TVGZPS2.png"}
+
+
+    document.querySelector("#replay").addEventListener("click",reset);
+
+    reset();
+
+
+
+
+
+
+
+
+    function roundResult(playerSel,compSel) {
         playerSel = playerSel.toLowerCase();
+        
         if (playerSel === compSel){
-            return `You Tie! ${playerSel} ties ${compSel}`
+            return `You tie`;
         }
+        rounds++;
         if (playerSel === "scissors"){
             if (compSel === "paper"){
-                return `You Win! ${playerSel} beats ${compSel}`
+                score++;
+                return "You win";
+                
             }
-            return `You Lose! ${playerSel} loses to ${compSel}`
+            losses++;
+            return `You lose`
 
         }else if (playerSel === "paper"){
             if (compSel === "rock"){
-                return `You Win! ${playerSel} beats ${compSel}`
+                score++;
+                return `You win`;
+                
             }
-            return `You Lose! ${playerSel} loses to ${compSel}`
+            losses++;
+            return `You lose`;
 
         } else if (playerSel === "rock"){
             if (compSel === "scissors"){
-                return `You Win! ${playerSel} beats ${compSel}`
+                score++;
+                return `You win`;
+              
             }
-            return `You Lose! ${playerSel} loses to ${compSel}`
+            losses++;
+            return `You lose`;
+            
 
-        }
-
-        
-
-
-    }
-
-
-    function game(){
-        let score = 0;
-        let userInput;
-        let value;
-
-        for(i=0;i<5;i++){
-            userInput = prompt("rock paper or scissors: ").toLowerCase();
-            console.log(userInput);
-            while(userInput!== "rock" && userInput!=="paper" && userInput !=="scissors"){
-                userInput = prompt("rock paper or scissors: ").toLowerCase();
-            }
-            console.log("pass")
-            value = playRound(userInput,computerPlay());
-            console.log(value);
-            score += value.indexOf("You Win") === -1 ? 0 : 1
-        }
-        if (score >= 3){
-            console.log(`You Won the game! you won ${score}/5 rounds.`)
-        }else{
-            console.log(`You lost the game! you won ${score}/5 rounds.`)
         }
 
     }
-
-
 
 
 
@@ -68,8 +227,114 @@
 
 
 
-    const playerSel = "rock";
-    game()
+
+
+
+
+
+    let btns = Array.from(document.querySelectorAll('.btns button'));
+
+
+    btns.forEach( btn => {
+        btn.addEventListener('click', e => {
+            disableButtons();
+            startRoundGraphic();
+            setTimeout( ()=> {
+            let img = document.querySelector(".player img");
+            img.src = photos[e.target.name];
+            let computerChoice = computerGraphic();
+            
+            let result = roundResult(e.target.name,computerChoice);
+            setTimeout( () => document.querySelector("h3").innerText = result + " this round!",600);
+             setTimeout( () => document.querySelector("h3").innerText = "",2000);
+            updateScore();
+            if (rounds===6 || score >= 3 || losses >=3 ){
+                resetRequest();
+            }
+
+            },1800)
+
+        })
+    })
+
+
+
+
+    function resetRequest(){
+        document.querySelector(".reset .content h1").innerText = score >= 3 ? "You Won!":"You Lost!";
+        document.querySelector(".reset").classList.add("popup");
+        
+    }
+
+    function reset(){
+        score = 0;
+        rounds = 1;
+        losses = 0;
+        updateScore();
+        document.querySelector("h3").innerText="Lets Play"
+        document.querySelector(".computer").children[0].src = photos["rock"];
+        document.querySelector(".player").children[0].src = photos["rock"];
+        document.querySelector(".reset").classList.remove("popup");
+    }
+
+
+
+
+
+
+    function updateScore(){
+        document.querySelector("h2.score").innerText =`Score: ${score}`;
+        document.querySelector("h2.round").innerText =`Round: ${rounds}`;
+    }
+
+    function startRoundGraphic(){
+        let computer = document.querySelector(".computer");
+        let player = document.querySelector(".player");
+        computer.children[0].src = photos["rock"];
+        player.children[0].src = photos["rock"];
+        player.classList.add("start1");
+        computer.classList.add("start2");
+        setTimeout( () => document.querySelector("h3").innerText = "rock..",450);
+        setTimeout( () => document.querySelector("h3").innerText = "paper..",900);
+        setTimeout( () => document.querySelector("h3").innerText = "scissors..",1350);
+        setTimeout( () => document.querySelector("h3").innerText = "shoot!",1800);
+        setTimeout(()=>player.classList.remove("start1"),1800);
+        setTimeout(()=>computer.classList.remove("start2"),1800);
+        
+
+    }
+
+
+    function disableButtons(time=4000){
+        btns.forEach( btn => {
+            console.log("here",btn,btn.disabled);
+            btn.disabled = true;
+            setTimeout(()=>btn.disabled=false,3800);
+
+
+
+    });
+}
+
+
+
+    function computerGraphic(){
+        let computerImg = document.querySelector(".computer img");
+        let computerChoice = computerPlay();
+        computerImg.src = photos[computerChoice];
+        return computerChoice;
+
+
+    }
+
+
+
+
+
+
+
+
+
     
    
 
